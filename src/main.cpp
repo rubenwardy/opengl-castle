@@ -15,6 +15,7 @@ int main() {
 
 	VAO vao;
 	VBO vbo;
+	VBO ebo(ELEMENT_ARRAY_BUFFER);
 
 	vao.bind();
 
@@ -29,8 +30,13 @@ int main() {
 			1, 2, 3    // second triangle
 	};
 
-	vbo.setData(&vertices[0], sizeof(vertices));
+	vbo.bind();
+	ebo.bind();
+	vbo.setData3(&vertices[0], sizeof(vertices));
+	ebo.setData(&indices[0], sizeof(indices));
 	vao.unbind();
+	ebo.unbind();
+	vbo.unbind();
 
 	while (window.run()) {
 		window.clear({ 0.2f, 0.3f, 0.3f, 1.0f });

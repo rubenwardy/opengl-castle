@@ -13,5 +13,6 @@ public:
 	explicit VBO(VBOType type = ARRAY_BUFFER, VBODrawMode drawMode = STATIC);
 	void bind();
 	void unbind();
-	void setData(float *vertices, size_t size);
+	void setData(void *vertices, size_t size);
+	void setData3(void *vertices, size_t size);
 };
