@@ -36,7 +36,10 @@ set(SOURCE_LIST
 	src/main.cpp
 	src/engine/Window.cpp
 	src/engine/VBO.cpp
-	src/engine/Shader.cpp src/engine/ShaderProgram.cpp src/engine/ShaderProgram.hpp)
+	src/engine/Shader.cpp
+	src/engine/ShaderProgram.cpp
+	src/engine/ShaderProgram.hpp
+	src/engine/VAO.cpp)
 
 file(MAKE_DIRECTORY "bin")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

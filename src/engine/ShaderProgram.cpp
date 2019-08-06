@@ -5,7 +5,6 @@
 
 ShaderProgram::ShaderProgram() {
 	handle = glCreateProgram();
-	glLinkProgram(handle);
 }
 
 void ShaderProgram::attach(const Shader &shader) {
