@@ -1,8 +1,6 @@
 #pragma once
 
-struct Color {
-	float r, g, b, a;
-};
+#include <glm/glm.hpp>
 
 struct GLFWwindow;
 class Window {
@@ -13,5 +11,5 @@ public:
 
 	bool run();
 	void swapBuffers();
-	void clear(const Color &color);
+	void clear(const glm::vec4 &color);
 };

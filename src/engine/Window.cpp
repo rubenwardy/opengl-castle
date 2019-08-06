@@ -45,7 +45,7 @@ void Window::swapBuffers() {
 }
 
 
-void Window::clear(const Color &color) {
+void Window::clear(const glm::vec4 &color) {
 	glClearColor(color.r, color.g, color.b, color.a);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
