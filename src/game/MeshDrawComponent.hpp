@@ -4,7 +4,7 @@
 #include "../engine/ShaderProgram.hpp"
 
 class MeshDrawComponent : public Component {
-	unsigned int vbo, ebo, vao;
+	unsigned int vbo, ebo, vao, texture;
 	const ShaderProgram &shader;
 
 public:

@@ -1,7 +1,8 @@
 #include <utility>
 #include "../engine/gl.hpp"
-
 #include "MeshDrawComponent.hpp"
+#include <stb_image.h>
+#include <iostream>
 
 const std::string MeshDrawComponent::className = "MeshDrawComponent";
 
@@ -12,10 +13,11 @@ MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const ShaderProgram &shader
 	glGenVertexArrays(1, &vao);
 
 	float vertices[] = {
-			0.5f,  0.5f, 0.0f,  // top right
-			0.5f, -0.5f, 0.0f,  // bottom right
-			-0.5f, -0.5f, 0.0f,  // bottom left
-			-0.5f,  0.5f, 0.0f   // top left
+			 // positions          // colors           // texture coords
+			 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+			 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+			-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+			-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
 	};
 	unsigned int indices[] = {  // note that we start from 0!
 			0, 1, 3,   // first triangle
@@ -23,14 +25,49 @@ MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const ShaderProgram &shader
 	};
 
 	glBindVertexArray(vao);
+
+	//
+	// VBO
+	//
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	// color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	// texture coord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
+
+	//
+	// EBO
+	//
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+
+	//
+	// Textures
+	//
+	int width, height, nrChannels;
+	unsigned char *data = stbi_load("assets/container.jpg", &width, &height, &nrChannels, 0);
+	if (!data) {
+		std::cerr << "Error! unable to load image" << std::endl;
+	}
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(data);
+
+
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -44,6 +81,7 @@ void MeshDrawComponent::update(float delta) {
 void MeshDrawComponent::draw() const {
 	shader.use();
 
+	glBindTexture(GL_TEXTURE_2D, texture);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
