@@ -41,7 +41,8 @@ set(SOURCE_LIST
 	src/engine/ShaderProgram.hpp
 	src/graph/Node.cpp
 	src/graph/Component.cpp
-	src/game/MeshDrawComponent.cpp)
+	src/game/MeshDrawComponent.cpp
+	src/tests/tests.cpp)
 
 file(MAKE_DIRECTORY "bin")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")
