@@ -36,11 +36,12 @@ include_directories(${GLFW_INCLUDE_DIRS})
 set(SOURCE_LIST
 	src/main.cpp
 	src/engine/Window.cpp
-	src/engine/VBO.cpp
 	src/engine/Shader.cpp
 	src/engine/ShaderProgram.cpp
 	src/engine/ShaderProgram.hpp
-	src/engine/VAO.cpp)
+	src/graph/Node.cpp
+	src/graph/Component.cpp
+	src/game/MeshDrawComponent.cpp)
 
 file(MAKE_DIRECTORY "bin")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

@@ -25,6 +25,6 @@ void ShaderProgram::link() {
 	}
 }
 
-void ShaderProgram::use() {
+void ShaderProgram::use() const {
 	glUseProgram(handle);
 }
