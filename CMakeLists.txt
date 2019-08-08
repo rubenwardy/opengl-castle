@@ -42,7 +42,7 @@ set(SOURCE_LIST
 	src/graph/Component.cpp
 	src/game/MeshDrawComponent.cpp
 	src/tests/tests.cpp
-	src/libs/stb_image.c)
+	src/libs/stb_image.c src/engine/Image.cpp src/engine/Image.hpp)
 
 file(MAKE_DIRECTORY "bin")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

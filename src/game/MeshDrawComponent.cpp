@@ -1,7 +1,7 @@
 #include <utility>
 #include "../engine/gl.hpp"
 #include "MeshDrawComponent.hpp"
-#include <stb_image.h>
+#include "../engine/Image.hpp"
 #include <iostream>
 
 const std::string MeshDrawComponent::className = "MeshDrawComponent";
@@ -51,21 +51,18 @@ MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const ShaderProgram &shader
 	//
 	// Textures
 	//
-	int width, height, nrChannels;
-	unsigned char *data = stbi_load("assets/container.jpg", &width, &height, &nrChannels, 0);
-	if (!data) {
-		std::cerr << "Error! unable to load image" << std::endl;
-	}
+	{
+		Image image("assets/container.jpg");
 
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(data);
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.getSize().x, image.getSize().y, 0, GL_RGB, GL_UNSIGNED_BYTE, image.getData());
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
 
 
 
