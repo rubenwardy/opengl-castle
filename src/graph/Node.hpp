@@ -24,9 +24,18 @@ public:
 		updateGlobalPosition();
 	}
 
-	template<class T>
+	template<typename T>
 	void addComponent(T *comp) {
 		_components[T::className] = std::unique_ptr<Component>(comp);
+	}
+
+	template<typename T, typename... _Args>
+	inline T *addComponent(_Args&&... __args) {
+		auto ptr = std::make_unique<T>(std::forward<_Args>(__args)...);
+		T *rptr = ptr.get();
+
+		_components[T::className] = std::move(ptr);
+		return rptr;
 	}
 
 	template<class T>

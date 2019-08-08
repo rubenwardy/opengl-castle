@@ -19,7 +19,7 @@ int main() {
 	auto root = std::make_shared<Node>();
 	{
 		auto square = std::make_shared<Node>();
-		square->addComponent<MeshDrawComponent>(new MeshDrawComponent(square, shaderProgram));
+		square->addComponent<MeshDrawComponent>(square, shaderProgram);
 		root->addChild(square);
 	}
 
