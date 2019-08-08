@@ -6,7 +6,7 @@
 
 const std::string MeshDrawComponent::className = "MeshDrawComponent";
 
-MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const ShaderProgram &shader):
+MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const Shader &shader):
 		Component(std::move(node)), shader(shader) {
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);

@@ -36,8 +36,7 @@ set(SOURCE_LIST
 	src/main.cpp
 	src/engine/Window.cpp
 	src/engine/Shader.cpp
-	src/engine/ShaderProgram.cpp
-	src/engine/ShaderProgram.hpp
+	src/engine/Shader.hpp
 	src/graph/Node.cpp
 	src/graph/Component.cpp
 	src/game/MeshDrawComponent.cpp

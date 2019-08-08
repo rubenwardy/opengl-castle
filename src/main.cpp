@@ -1,7 +1,7 @@
 #include <iostream>
 #include "engine/Window.hpp"
 #include "engine/Shader.hpp"
-#include "engine/ShaderProgram.hpp"
+#include "engine/Shader.hpp"
 #include "graph/Node.hpp"
 #include "game/MeshDrawComponent.hpp"
 #include "tests/tests.hpp"
@@ -14,11 +14,7 @@ int main() {
 	}
 
 	Window window;
-
-	ShaderProgram shaderProgram;
-	shaderProgram.attach(Shader::Load(ShaderType::VERTEX, "assets/shaders/base.vert.glsl"));
-	shaderProgram.attach(Shader::Load(ShaderType::FRAGMENT, "assets/shaders/base.frag.glsl"));
-	shaderProgram.link();
+	Shader shaderProgram("assets/shaders/base.vert.glsl", "assets/shaders/base.frag.glsl");
 
 	auto root = std::make_shared<Node>();
 	{
