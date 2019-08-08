@@ -51,19 +51,8 @@ MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const Shader &shader):
 	//
 	// Textures
 	//
-	{
-		Image image("assets/container.jpg");
-
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.getSize().x, image.getSize().y, 0, GL_RGB, GL_UNSIGNED_BYTE, image.getData());
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-
+	Image image("assets/container.jpg");
+	texture.load(image);
 
 
 	glBindVertexArray(0);
@@ -77,8 +66,8 @@ void MeshDrawComponent::update(float delta) {
 
 void MeshDrawComponent::draw() const {
 	shader.use();
+	texture.bind();
 
-	glBindTexture(GL_TEXTURE_2D, texture);
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
