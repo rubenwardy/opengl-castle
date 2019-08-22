@@ -43,7 +43,8 @@ set(SOURCE_LIST
 	src/tests/tests.cpp
 	src/libs/stb_image.c
 	src/engine/Image.cpp
-	src/engine/Texture.cpp)
+	src/engine/Texture.cpp
+	src/engine/RenderDevice.cpp)
 
 file(MAKE_DIRECTORY "bin")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/bin")

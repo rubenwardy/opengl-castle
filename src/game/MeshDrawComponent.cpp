@@ -4,10 +4,12 @@
 #include "../engine/Image.hpp"
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 const std::string MeshDrawComponent::className = "MeshDrawComponent";
 
-MeshDrawComponent::MeshDrawComponent(Node::Ptr node, const Shader &shader):
-		Component(std::move(node)), shader(shader) {
+MeshDrawComponent::MeshDrawComponent(Node::Ptr node, RenderDevice *device, const Shader &shader):
+		Component(std::move(node)), device(device), shader(shader) {
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 	glGenVertexArrays(1, &vao);
@@ -65,8 +67,14 @@ void MeshDrawComponent::update(float delta) {
 }
 
 void MeshDrawComponent::draw() const {
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
 	shader.use();
 	texture.bind();
+
+	shader.setUniform("model", model);
+	shader.setUniform("viewprojection", device->getViewProjectionMatrix());
 
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

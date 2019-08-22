@@ -44,9 +44,12 @@ void Window::swapBuffers() {
 	glfwSwapBuffers(window);
 }
 
-
 void Window::clear(const glm::vec4 &color) {
 	glClearColor(color.r, color.g, color.b, color.a);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+glm::ivec2 Window::getSize() const {
+	return { 800, 600 };
 }
 

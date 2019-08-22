@@ -12,4 +12,6 @@ public:
 	bool run();
 	void swapBuffers();
 	void clear(const glm::vec4 &color);
+
+	glm::ivec2 getSize() const;
 };

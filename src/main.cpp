@@ -13,18 +13,18 @@ int main() {
 		return 0;
 	}
 
-	Window window;
+	RenderDevice device;
 	Shader shaderProgram("assets/shaders/base.vert.glsl", "assets/shaders/base.frag.glsl");
 
 	auto root = std::make_shared<Node>();
 	{
 		auto square = std::make_shared<Node>();
-		square->addComponent<MeshDrawComponent>(square, shaderProgram);
+		square->addComponent<MeshDrawComponent>(square, &device, shaderProgram);
 		root->addChild(square);
 	}
 
-	while (window.run()) {
-		window.clear({ 0.2f, 0.3f, 0.3f, 1.0f });
+	while (device.getWindow().run()) {
+		device.getWindow().clear({ 0.2f, 0.3f, 0.3f, 1.0f });
 
 		root->recurseComponents<MeshDrawComponent>([](auto x) {
 			// TODO: visibility
@@ -32,6 +32,6 @@ int main() {
 			return true;
 		});
 
-		window.swapBuffers();
+		device.getWindow().swapBuffers();
 	}
 }

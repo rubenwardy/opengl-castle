@@ -4,6 +4,8 @@
 #include "Shader.hpp"
 #include "gl.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
+
 bool loadShader(int &handle, int type, const std::string &path) {
 	std::ifstream t(path);
 	std::string str((std::istreambuf_iterator<char>(t)),
@@ -48,5 +50,10 @@ Shader::Shader(const std::string &vpath, const std::string &fpath) {
 
 void Shader::use() const {
 	glUseProgram(handle);
+}
+
+void Shader::setUniform(const std::string& name, glm::mat4 mat4) const {
+	int modelLoc = glGetUniformLocation(handle, name.c_str());
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(mat4));
 }
 
